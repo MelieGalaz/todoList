@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography, Modal, TextField, Button } from "@mui/material";
-import { v4 as uuidv4 } from "uuid";
 
 const style = {
   position: "absolute",
@@ -14,58 +13,68 @@ const style = {
   p: 4,
 };
 
-export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {
+export const ModalEditarTarea = ({
+  open,
+  setOpen,
+  tarea,
+  setTareas,
+  tareas,
+}) => {
   const [nuevaTarea, setNuevaTarea] = useState({
     tarea: "",
     Descripcion: "",
     id: "",
   });
-  const [tituloError, setTituloError] = useState(false);
 
-  const handleChange = (e) => {
-    setNuevaTarea({
-      ...nuevaTarea,
-      [e.target.name]: e.target.value,
-    });
+  useEffect(() => {
+    if (tarea) {
+      setNuevaTarea({ ...tarea });
+    }
+  }, [tarea]);
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!nuevaTarea.tarea.trim()) {
-      setTituloError(true);
-      return;
-    }
-    agregarTarea({ ...nuevaTarea, id: uuidv4() });
-    setNuevaTarea({ tarea: "", Descripcion: "", id: "" });
-    handleClose();
+    const tareaEditada = {
+      ...nuevaTarea,
+      tarea: e.target.tarea.value,
+      Descripcion: e.target.Descripcion.value,
+    };
+    const tareasNuevasEditadas = tareas.map((tarea) =>
+      tarea.id === tareaEditada.id ? tareaEditada : tarea
+    );
+    setTareas(tareasNuevasEditadas);
+    localStorage.setItem("tareas", JSON.stringify(tareasNuevasEditadas));
+    setOpen(false);
   };
-  const handleCancelar = () => {
-    setNuevaTarea({ tarea: "", Descripcion: "", id: "" });
-    setTituloError(false);
-    handleClose();
-  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography variant="h6" component="h2" sx={{ textAlign: "center" }}>
-          Nueva Tarea
+          Editar Tarea
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             label="Nombre de la tarea"
             name="tarea"
             value={nuevaTarea.tarea}
-            onChange={handleChange}
+            onChange={(e) =>
+              setNuevaTarea({ ...nuevaTarea, tarea: e.target.value })
+            }
             fullWidth
             margin="normal"
-            error={tituloError}
-            helperText={tituloError ? "Este campo es obligatorio" : ""}
           />
           <TextField
             label="Descripción"
             name="Descripcion"
             value={nuevaTarea.Descripcion}
-            onChange={handleChange}
+            onChange={(e) =>
+              setNuevaTarea({ ...nuevaTarea, Descripcion: e.target.value })
+            }
             fullWidth
             margin="normal"
           />
@@ -73,7 +82,6 @@ export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {
             <Button
               type="submit"
               variant="contained"
-              color="primary"
               style={{
                 backgroundImage: "linear-gradient(to right, #c167de, #feb47b)",
                 backgroundSize: "cover",
@@ -83,9 +91,8 @@ export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {
             >
               Guardar
             </Button>
-
             <Button
-              onClick={handleCancelar}
+              onClick={handleClose}
               variant="outlined"
               color="error"
               style={{ borderRadius: "10px" }}

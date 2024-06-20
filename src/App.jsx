@@ -1,14 +1,16 @@
 import { useState } from "react";
 import "./App.css";
 import { ModalNuevaTarea } from "./componentes/ModalNuevaTarea";
+import { ModalEditarTarea } from "./componentes/ModalEditarTarea";
 import { Tareas } from "./componentes/Tareas";
 import { NavBar } from "./layout/navBar/NavBar";
 import { Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
+
 function App() {
   const defaultTask = [
     {
-      tarea: "Tarea ",
+      tarea: "Tarea",
       Descripcion: "Descripción de la tarea",
       id: uuidv4(),
     },
@@ -19,10 +21,17 @@ function App() {
     return tareasGuardadas ? JSON.parse(tareasGuardadas) : defaultTask;
   });
 
-  const [open, setOpen] = useState(false);
+  const [openNew, setOpenNew] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenNew = () => setOpenNew(true);
+  const handleCloseNew = () => setOpenNew(false);
+
+  const handleOpenEdit = (tarea) => {
+    setTareaSeleccionada(tarea);
+    setOpenEdit(true);
+  };
 
   const agregarTarea = (nuevaTarea) => {
     const nuevasTareas = [...tareas, nuevaTarea];
@@ -35,7 +44,7 @@ function App() {
       <NavBar />
 
       <Button
-        onClick={handleOpen}
+        onClick={handleOpenNew}
         variant="contained"
         sx={{
           display: "block",
@@ -50,11 +59,19 @@ function App() {
         Agregar Nueva Tarea
       </Button>
       <ModalNuevaTarea
-        open={open}
-        handleClose={handleClose}
+        open={openNew}
+        handleClose={handleCloseNew}
         agregarTarea={agregarTarea}
+        setTareas={setTareas}
       />
-      <Tareas tareas={tareas} />
+      <ModalEditarTarea
+        open={openEdit}
+        setOpen={setOpenEdit}
+        tarea={tareaSeleccionada}
+        tareas={tareas}
+        setTareas={setTareas}
+      />
+      <Tareas tareas={tareas} handleOpenEdit={handleOpenEdit} />
     </>
   );
 }
