@@ -7,12 +7,13 @@ import {
   Button,
   Collapse,
 } from "@mui/material";
-import { FaCheck, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa";
 import { MdOutlineExpandMore } from "react-icons/md";
 import fondo from "../assets/fondoCard2.jpg";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
-
+import { MarcarTareaCompletada } from "./MarcarTareaCompletada";
 export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
@@ -50,6 +51,13 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
     localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
     handleCloseEli();
   };
+  const toggleCompletada = (id, completada) => {
+    const nuevasTareas = tareas.map((t) =>
+      t.id === id ? { ...t, completada: !completada } : t
+    );
+    setTareas(nuevasTareas);
+    localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+  };
 
   return (
     <>
@@ -63,7 +71,7 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
       {tareas.map((tareaObj) => {
         if (!tareaObj) return null;
 
-        const { tarea, Descripcion, id } = tareaObj;
+        const { tarea, Descripcion, id, completada } = tareaObj;
 
         return (
           <Card
@@ -91,7 +99,7 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
               }}
             >
               <Typography sx={{ fontSize: "1rem", fontWeight: "600" }}>
-                {tarea}
+                <MarcarTareaCompletada tarea={tarea} completada={completada} />
               </Typography>
               <Box sx={{ display: "flex", gap: "10px" }}>
                 <span
@@ -101,8 +109,14 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
                   aria-haspopup="true"
                   onMouseEnter={(e) => handlePopoverOpen(e, id + "check")}
                   onMouseLeave={handlePopoverClose}
+                  onClick={() => toggleCompletada(id, completada)}
                 >
-                  <FaCheck style={{ color: "green", fontSize: "20px" }} />
+                  <FaCheck
+                    style={{
+                      color: completada ? "gray" : "green",
+                      fontSize: "20px",
+                    }}
+                  />
                 </span>
                 <Popover
                   id="mouse-over-popover"
@@ -124,7 +138,10 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
                   onClose={handlePopoverClose}
                   disableRestoreFocus
                   PaperProps={{
-                    style: { backgroundColor: "#5da55d8a", boxShadow: "none" },
+                    style: {
+                      backgroundColor: completada ? "grey" : "#5da55d8a",
+                      boxShadow: "none",
+                    },
                   }}
                 >
                   <Typography
@@ -137,7 +154,7 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
                         "1px 1px 2px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(255, 255, 255, 0.5)",
                     }}
                   >
-                    Tarea Completada
+                    {completada ? "Tarea Completada" : "Tarea Incompleta"}
                   </Typography>
                 </Popover>
 
