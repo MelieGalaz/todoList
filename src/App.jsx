@@ -71,7 +71,11 @@ function App() {
         tareas={tareas}
         setTareas={setTareas}
       />
-      <Tareas tareas={tareas} handleOpenEdit={handleOpenEdit} />
+      <Tareas
+        tareas={tareas}
+        handleOpenEdit={handleOpenEdit}
+        setTareas={setTareas}
+      />
     </>
   );
 }

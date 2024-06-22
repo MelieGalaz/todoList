@@ -4,25 +4,28 @@ import {
   Typography,
   Card,
   Popover,
-  Collapse,
   Button,
+  Collapse,
 } from "@mui/material";
-import { FaCheck } from "react-icons/fa";
-import { MdOutlineExpandMore } from "react-icons/md";
+import { FaCheck, FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
+import { MdOutlineExpandMore } from "react-icons/md";
 import fondo from "../assets/fondoCard2.jpg";
+import { ModalEliminarTarea } from "./ModalEliminarTarea";
 
-export const Tareas = ({ tareas, handleOpenEdit }) => {
+export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
   const [expanded, setExpanded] = useState(null);
-
   const handlePopoverOpen = (event, id) => {
     setAnchorEl(event.currentTarget);
     setPopoverId(id);
   };
-
+  const handleExpandClick = (id) => {
+    setExpanded(expanded === id ? null : id);
+  };
   const handlePopoverClose = () => {
     setAnchorEl(null);
     setPopoverId(null);
@@ -30,12 +33,33 @@ export const Tareas = ({ tareas, handleOpenEdit }) => {
 
   const isOpen = (id) => popoverId === id;
 
-  const handleExpandClick = (id) => {
-    setExpanded(expanded === id ? null : id);
+  const handleOpenEli = (tarea) => {
+    setTareaSeleccionada(tarea);
+    setModalOpen(true);
+  };
+
+  const handleCloseEli = () => {
+    setModalOpen(false);
+    setTareaSeleccionada(null);
+  };
+
+  const eliminarTarea = (id) => {
+    const nuevasTareas = tareas.filter((t) => t.id !== id);
+
+    setTareas(nuevasTareas);
+    localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+    handleCloseEli();
   };
 
   return (
     <>
+      <ModalEliminarTarea
+        open={modalOpen}
+        handleClose={handleCloseEli}
+        tareaSeleccionada={tareaSeleccionada}
+        eliminarTarea={eliminarTarea}
+      />
+
       {tareas.map((tareaObj) => {
         if (!tareaObj) return null;
 
@@ -56,6 +80,7 @@ export const Tareas = ({ tareas, handleOpenEdit }) => {
               marginTop: "20px",
               padding: "10px",
               maxWidth: "700px",
+              gap: "10px",
             }}
           >
             <Box
@@ -123,6 +148,7 @@ export const Tareas = ({ tareas, handleOpenEdit }) => {
                   aria-haspopup="true"
                   onMouseEnter={(e) => handlePopoverOpen(e, id + "trash")}
                   onMouseLeave={handlePopoverClose}
+                  onClick={() => handleOpenEli(tareaObj)}
                 >
                   <FaTrashCan style={{ color: "red", fontSize: "20px" }} />
                 </span>
@@ -211,12 +237,13 @@ export const Tareas = ({ tareas, handleOpenEdit }) => {
                 </Popover>
               </Box>
             </Box>
+
             <Box
               sx={{
                 display: "flex",
                 gap: "10px",
                 alignItems: "center",
-                justifyContent: "center", // Centrar contenido horizontalmente
+                justifyContent: "center",
               }}
             >
               <Typography variant="subtitle2" sx={{ textAlign: "center" }}>

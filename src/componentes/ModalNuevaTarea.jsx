@@ -12,6 +12,10 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  borderRadius: "20px",
 };
 
 export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {
@@ -47,7 +51,9 @@ export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
-        <Typography variant="h6" component="h2" sx={{ textAlign: "center" }}>
+        <Typography
+          sx={{ textAlign: "center", fontSize: "1.6rem", fontWeight: 600 }}
+        >
           Nueva Tarea
         </Typography>
         <form onSubmit={handleSubmit}>
