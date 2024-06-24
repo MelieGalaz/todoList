@@ -6,7 +6,6 @@ import { Tareas } from "./componentes/Tareas";
 import { NavBar } from "./layout/navBar/NavBar";
 import { Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
-// import { Filtros } from "./componentes/Filtros";
 
 function App() {
   const defaultTask = [
