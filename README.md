@@ -1,6 +1,6 @@
 # ListaMaestra
 
-En esta app se pueden ingresar tareas a realizar para organizar mejor el día a día. Estas pueden ser editadas, eliminadas y marcadas cuando se complete la tarea. También posee filtros según tarea realizada, no realizada y todas las tareas.
+En esta app [ListaMaestra](https://listamaestra.netlify.app) se pueden ingresar tareas a realizar para organizar mejor el día a día. Estas pueden ser editadas, eliminadas y marcadas cuando se complete la tarea. También posee filtros según tarea realizada, no realizada y todas las tareas.
 
 ## La vista segun el tamaño:
 
@@ -76,3 +76,5 @@ Las tecnologías que utilicé para construir este proyecto:
 - ** MELIE GALAZ **
 
 ## Link para usar la app
+
+https://listamaestra.netlify.app
