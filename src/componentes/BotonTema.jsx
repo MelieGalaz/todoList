@@ -4,12 +4,12 @@ import { IoColorPalette } from "react-icons/io5";
 
 export const BotonTema = () => {
   const gradientes = [
-    "linear-gradient(to right, #ff7e5f, #feb47b)",
-    "linear-gradient(to right, #6a11cb, #2575fc)",
-    "linear-gradient(to right, #00c6ff, #0072ff)",
-    "linear-gradient(to right, #f7971e, #ffd200)",
-    "linear-gradient(to right, #43cea2, #185a9d)",
-    "linear-gradient(to right, #ff512f, #dd2476)",
+    "linear-gradient(to right, #ffaa88, #ffd8b3)",
+    "linear-gradient(to right, #a564e9, #77a7ff)",
+    "linear-gradient(to right, #66d6ff, #33aaff)",
+    "linear-gradient(to right, #ffba5a, #ffe780)",
+    "linear-gradient(to right, #6ae1bd, #3f8ab6)",
+    "linear-gradient(to right, #ff765b, #f34f92)",
   ];
 
   const [backgroundGradiente, setBackgroundGradiente] = useState(gradientes[0]);
@@ -36,7 +36,11 @@ export const BotonTema = () => {
     <Button
       variant="contained"
       onClick={cambiarFondo}
-      style={{ backgroundImage: buttonGradienteRef.current }}
+      style={{
+        backgroundImage: buttonGradienteRef.current,
+        gap: "5px",
+        padding: "6px 10px",
+      }}
     >
       <IoColorPalette style={{ fontSize: "1.3em" }} /> Tema
     </Button>

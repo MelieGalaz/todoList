@@ -39,7 +39,11 @@ export const NavBar = () => {
             <Typography
               variant="h6"
               component="div"
-              sx={{ fontSize: "1.6rem", fontWeight: "600" }}
+              sx={{
+                fontSize: "1.6rem",
+                fontWeight: "900",
+                fontFamily: "Playwrite DE Grund",
+              }}
             >
               ListaMaestra
             </Typography>

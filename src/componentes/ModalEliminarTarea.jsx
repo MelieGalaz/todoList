@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-
+import fondo from "../assets/fondoCard2.jpg";
 const style = {
   position: "absolute",
   top: "50%",
@@ -18,6 +18,10 @@ const style = {
   flexDirection: "column",
   gap: "20px",
   borderRadius: "20px",
+  backgroundImage: `url(${fondo})`,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
 };
 
 export const ModalEliminarTarea = ({

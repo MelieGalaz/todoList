@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Typography, Modal, TextField, Button } from "@mui/material";
-
+import fondo from "../assets/fondoCard2.jpg";
 const style = {
   position: "absolute",
   top: "50%",
@@ -8,13 +8,18 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "80%",
   maxWidth: "700px",
-  bgcolor: "background.paper",
+
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   display: "flex",
   flexDirection: "column",
   gap: "10px",
   borderRadius: "20px",
+  backgroundImage: `url(${fondo})`,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
 };
 
 export const ModalEditarTarea = ({

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Typography, Modal, TextField, Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
-
+import fondo from "../assets/fondoCard2.jpg";
 const style = {
   position: "absolute",
   top: "50%",
@@ -10,12 +10,17 @@ const style = {
   width: "80%",
   maxWidth: "700px",
   bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   display: "flex",
   flexDirection: "column",
   gap: "10px",
   borderRadius: "20px",
+  backgroundImage: `url(${fondo})`,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
 };
 
 export const ModalNuevaTarea = ({ open, handleClose, agregarTarea }) => {

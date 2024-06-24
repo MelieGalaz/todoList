@@ -7,6 +7,7 @@ import {
   Button,
   Collapse,
 } from "@mui/material";
+
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
@@ -14,12 +15,14 @@ import { MdOutlineExpandMore } from "react-icons/md";
 import fondo from "../assets/fondoCard2.jpg";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { MarcarTareaCompletada } from "./MarcarTareaCompletada";
+import { Filtros } from "./Filtros";
 export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
   const [expanded, setExpanded] = useState(null);
+  const [filtroTareas, setFiltroTareas] = useState("todas");
   const handlePopoverOpen = (event, id) => {
     setAnchorEl(event.currentTarget);
     setPopoverId(id);
@@ -58,6 +61,16 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
     setTareas(nuevasTareas);
     localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
   };
+  const filtrarTareas = () => {
+    switch (filtroTareas) {
+      case "completadas":
+        return tareas.filter((t) => t.completada);
+      case "noCompletadas":
+        return tareas.filter((t) => !t.completada);
+      default:
+        return tareas;
+    }
+  };
 
   return (
     <>
@@ -67,8 +80,8 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
         tareaSeleccionada={tareaSeleccionada}
         eliminarTarea={eliminarTarea}
       />
-
-      {tareas.map((tareaObj) => {
+      <Filtros filtroTareas={filtroTareas} setFiltroTareas={setFiltroTareas} />
+      {filtrarTareas().map((tareaObj) => {
         if (!tareaObj) return null;
 
         const { tarea, Descripcion, id, completada } = tareaObj;
@@ -103,6 +116,9 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
               </Typography>
               <Box sx={{ display: "flex", gap: "10px" }}>
                 <span
+                  data-tip={
+                    completada ? "Tarea Completada" : "Tarea Incompleta"
+                  }
                   aria-owns={
                     isOpen(id + "check") ? "mouse-over-popover" : undefined
                   }
