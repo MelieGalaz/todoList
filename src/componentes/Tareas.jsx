@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Box, Typography, Card, Button, Collapse } from "@mui/material";
+import {
+	Box,
+	Typography,
+	Card,
+	Button,
+	Collapse,
+	Checkbox,
+} from "@mui/material";
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
-import { FaCheck } from "react-icons/fa";
 import { MdOutlineExpandMore } from "react-icons/md";
 import fondo from "../assets/fondoCard2.jpg";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
@@ -107,21 +113,32 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
 									alignItems: "center",
 								}}
 							>
-								<Typography sx={{ fontSize: "1rem", fontWeight: "600" }}>
+								<Typography
+									sx={{
+										fontSize: "1rem",
+										fontWeight: "600",
+										fontFamily: "Acme",
+									}}
+								>
 									<MarcarTareaCompletada
 										tarea={tarea}
 										completada={completada}
 									/>
 								</Typography>
-								<Box sx={{ display: "flex", gap: "10px" }}>
-									<span onClick={() => toggleCompletada(id, completada)}>
-										<FaCheck
-											style={{
-												color: completada ? "gray" : "green",
-												fontSize: "20px",
-											}}
-										/>
-									</span>
+								<Box
+									sx={{ display: "flex", gap: "10px", alignItems: "center" }}
+								>
+									<Checkbox
+										checked={completada}
+										onChange={() => toggleCompletada(id, completada)}
+										sx={{
+											color: "green",
+											padding: "0",
+											"&.Mui-checked": {
+												color: "green",
+											},
+										}}
+									/>
 
 									<span onClick={() => handleOpenEli(tareaObj)}>
 										<FaTrashCan style={{ color: "red", fontSize: "20px" }} />
@@ -172,14 +189,16 @@ export const Tareas = ({ tareas, handleOpenEdit, setTareas }) => {
 							<Collapse in={expanded === id} timeout="auto" unmountOnExit>
 								<Box
 									sx={{
-										margin: "20px 0px",
+										margin: "0px",
 										wordWrap: "break-word",
 										textAlign: "center",
 										backgroundColor: "white",
 										padding: "10px",
 									}}
 								>
-									<Typography>{descripcion}</Typography>
+									<Typography sx={{ fontSize: "0.9rem", fontFamily: "Acme" }}>
+										{descripcion}
+									</Typography>
 								</Box>
 							</Collapse>
 						</Card>

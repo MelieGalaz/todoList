@@ -5,7 +5,8 @@ export const MarcarTareaCompletada = ({ tarea, completada }) => {
 				<span
 					style={{
 						color: "grey",
-						textDecoration: "line-through",
+						backgroundColor: "#bfe1d5",
+						paddingInline: "10px",
 					}}
 				>
 					{tarea}
@@ -14,7 +15,7 @@ export const MarcarTareaCompletada = ({ tarea, completada }) => {
 				<span
 					style={{
 						color: "#3f07f3",
-						textDecoration: "none",
+						paddingInline: "10px",
 					}}
 				>
 					{tarea}
